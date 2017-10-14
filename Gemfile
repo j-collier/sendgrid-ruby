@@ -1,6 +1,16 @@
 source 'http://rubygems.org'
 
-gemspec
+gemspec name: 'sendgrid-ruby'
 
-gem 'ruby_http_client'
+Dir['sendgrid-ruby-*.gemspec'].each do |gemspec|
+  plugin = gemspec.scan(/sendgrid-ruby-(.*)\.gemspec/).flatten.first
+  gemspec(name: "sendgrid-ruby-#{plugin}", development_group: plugin)
+end
 
+group :development, :test do
+  gem 'rake', '~> 0'
+  gem 'rspec'
+  gem 'pry'
+  gem 'faker'
+  gem 'minitest', '~> 5.9'
+end
