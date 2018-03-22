@@ -2,9 +2,11 @@ This documentation provides examples for specific use cases. Please [open an iss
 
 # Table of Contents
 
-* [Transactional Templates](#transactional_templates)
+* [Transactional Templates](#transactional-templates)
+* [How to Setup a Domain Whitelabel](#domain-whitelabel)
+* [How to View Email Statistics](#email-statistics)
 
-<a name="transactional_templates"></a>
+<a name="transactional-templates"></a>
 # Transactional Templates
 
 For this example, we assume you have created a [transactional template](https://sendgrid.com/docs/User_Guide/Transactional_Templates/index.html). Following is the template content we used for testing.
@@ -111,3 +113,31 @@ puts response.status_code
 puts response.body
 puts response.headers
 ```
+
+## Adding Attachments
+
+```ruby
+attachment = Attachment.new
+attachment.content = Base64.strict_encode64(File.open(fpath, 'rb').read)
+attachment.type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+attachment.filename = fname
+attachment.disposition = 'attachment'
+attachment.content_id = 'Reports Sheet'
+mail.add_attachment(attachment)
+
+```
+Attachments must be base64 encoded, using Base64's strict_encode64 where no line feeds are added.
+
+<a name="domain-whitelabel"></a>
+# How to Setup a Domain Whitelabel
+
+You can find documentation for how to setup a domain whitelabel via the UI [here](https://sendgrid.com/docs/Classroom/Basics/Whitelabel/setup_domain_whitelabel.html) and via API [here](https://github.com/sendgrid/sendgrid-ruby/blob/master/USAGE.md#whitelabel).
+
+Find more information about all of SendGrid's whitelabeling related documentation [here](https://sendgrid.com/docs/Classroom/Basics/Whitelabel/index.html).
+
+<a name="email-statistics"></a>
+# How to View Email Statistics
+
+You can find documentation for how to view your email statistics via the UI [here](https://app.sendgrid.com/statistics) and via API [here](https://github.com/sendgrid/sendgrid-ruby/blob/master/USAGE.md#stats).
+
+Alternatively, we can post events to a URL of your choice via our [Event Webhook](https://sendgrid.com/docs/API_Reference/Webhooks/event.html) about events that occur as SendGrid processes your email.

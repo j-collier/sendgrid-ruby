@@ -13,6 +13,7 @@ If you can't find a solution below, please open an [issue](https://github.com/se
 * [Environment Variables and Your SendGrid API Key](#environment)
 * [Using the Package Manager](#package-manager)
 * [Rails Specifics](#rails-specifics)
+* [Viewing the Request Body](#request-body)
 
 <a name="migrating"></a>
 ## Migrating from v2 to v3
@@ -69,7 +70,7 @@ end
 <a name="versions"></a>
 ## Versions
 
-We follow the MAJOR.MINOR.PATCH versioning scheme as described by [SemVer.org](http://semver.org). Therefore, we recommend that you always pin (or vendor) the particular version you are working with to your code and never auto-update to the latest version. Especially when there is a MAJOR point release, since that is guarenteed to be a breaking change. Changes are documented in the [CHANGELOG](https://github.com/sendgrid/sendgrid-ruby/blob/master/CHANGELOG.md) and [releases](https://github.com/sendgrid/sendgrid-ruby/releases) section.
+We follow the MAJOR.MINOR.PATCH versioning scheme as described by [SemVer.org](http://semver.org). Therefore, we recommend that you always pin (or vendor) the particular version you are working with to your code and never auto-update to the latest version. Especially when there is a MAJOR point release, since that is guaranteed to be a breaking change. Changes are documented in the [CHANGELOG](https://github.com/sendgrid/sendgrid-ruby/blob/master/CHANGELOG.md) and [releases](https://github.com/sendgrid/sendgrid-ruby/releases) section.
 
 <a name="environment"></a>
 ## Environment Variables and Your SendGrid API Key
@@ -115,3 +116,16 @@ gem install sendgrid-ruby -v X.X.X
 ## Rails Specifics
 
 - Namespace collision between Rails own `Mail` class and sendgrid class `Mail`. To avoid that issues please use `SendGrid::Mail` instead.
+
+- Possibility of a namespace collision between the sendgrid class `Email` and your own defined `Email` class. To avoid these issues, you can skip the `include SendGrid` line and use the `SendGrid::` prefix for Email. Please see this [SO answer](https://stackoverflow.com/questions/41508464/rails-model-name-conflict-with-included-gem?noredirect=1#comment70223099_41508464) for specifics.
+
+<a name="request-body"></a>
+## Viewing the Request Body
+
+When debugging or testing, it may be useful to examine the raw request header to compare against the [documented format](https://sendgrid.com/docs/API_Reference/api_v3.html).
+
+You can do this before `response = sg.client.mail._('send').post(request_body: mail.to_json)` like so:
+
+```ruby
+puts mail
+```
