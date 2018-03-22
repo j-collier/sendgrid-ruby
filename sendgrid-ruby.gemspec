@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.add_dependency 'ruby_http_client', '~> 3.2'
   spec.add_dependency 'sinatra', '>= 1.4.7', '< 3'
-  spec.add_development_dependency 'rake', '~> 0'
+  spec.add_development_dependency 'rake', '~> 12'
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'faker'
